@@ -6,11 +6,11 @@ socket.on('connect', function () {
   // socket.emit('createEmail', {
   //   to: 'tan@example.com',
   //   text: 'Hey. This is Tan.'
+  // // });
+  // socket.emit('createMessage', {
+  //   from: 'tan',
+  //   text: 'Hey. This is Tan.'
   // });
-  socket.emit('createMessage', {
-    from: 'tan',
-    text: 'Hey. This is Tan.'
-  });
 });
 
 socket.on('disconnect', function () {
