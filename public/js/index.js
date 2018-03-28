@@ -22,21 +22,39 @@ socket.on('disconnect', function () {
 // });
 socket.on('newMessage', function (mess) {
   var formattedTime = moment(mess.createdAt).format('h:mm a');
-  var li = $('<li></li>');
-  li.text(`${mess.from} ${formattedTime}: ${mess.text}`);
+  var template = $('#message-template').html();
+  var html = Mustache.render(template, {
+    text: mess.text,
+    from: mess.from,
+    createdAt: formattedTime
+  });
 
-  $('#messages').append(li);
+  $('#messages').append(html);
+
+  //var formattedTime = moment(mess.createdAt).format('h:mm a');
+  // var li = $('<li></li>');
+  // li.text(`${mess.from} ${formattedTime}: ${mess.text}`);
+  //
+  // $('#messages').append(li);
 });
 
 socket.on('newLocationMessage', function (mess) {
   var formattedTime = moment(mess.createdAt).format('h:mm a');
-  var li = $('<li></li>');
-  var a = $('<a target="_blank">My current location</a>');
+  var template = $('#location-message-template').html();
+  var html = Mustache.render(template, {
+    url: mess.url,
+    from: mess.from,
+    createdAt: formattedTime
+  })
 
-  li.text(`${mess.from} ${formattedTime}: `);
-  a.attr('href', mess.url);
-  li.append(a);
-  $('#messages').append(li);
+  $('#messages').append(html);
+  // var li = $('<li></li>');
+  // var a = $('<a target="_blank">My current location</a>');
+  //
+  // li.text(`${mess.from} ${formattedTime}: `);
+  // a.attr('href', mess.url);
+  // li.append(a);
+  // $('#messages').append(li);
 })
 
 // Example about acknowledge event
