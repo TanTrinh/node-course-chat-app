@@ -21,18 +21,19 @@ socket.on('disconnect', function () {
 //   console.log('New email', email);
 // });
 socket.on('newMessage', function (mess) {
-  console.log('New message', mess);
+  var formattedTime = moment(mess.createdAt).format('h:mm a');
   var li = $('<li></li>');
-  li.text(`${mess.from}: ${mess.text}`);
+  li.text(`${mess.from} ${formattedTime}: ${mess.text}`);
 
   $('#messages').append(li);
 });
 
 socket.on('newLocationMessage', function (mess) {
+  var formattedTime = moment(mess.createdAt).format('h:mm a');
   var li = $('<li></li>');
   var a = $('<a target="_blank">My current location</a>');
 
-  li.text(`${mess.from}: `);
+  li.text(`${mess.from} ${formattedTime}: `);
   a.attr('href', mess.url);
   li.append(a);
   $('#messages').append(li);
