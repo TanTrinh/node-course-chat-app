@@ -45,12 +45,21 @@ io.on('connection', (socket) => {
     socket.join(params.room);
     users.removeUser(socket.id);
     users.addUser(socket.id, params.name, params.room);
+
+    //Check duplicateUserName;
+    var userList = users.getUserList(params.room);
+    var duplicateUser = userList.filter((user) => user === params.name);
+    if (duplicateUser.length > 1) {
+      userList.pop();
+      users.users.pop();
+      return callback('Name has existed. Please choose another name!');
+    }
     //socket.leave('The Office Fans');
 
     //io.emit -> io.to('The Office Fans').emit
     //socket.broadcast.emit -> socket.broadcast.to('The Office Fans').emit
     //socket.emit
-    io.to(params.room).emit('updateUserList', users.getUserList(params.room));
+    io.to(params.room).emit('updateUserList', userList);// users.getUserList(params.room));
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
     socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
