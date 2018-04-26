@@ -5,6 +5,12 @@
     <title>Chat | ChatApp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Begin emoji-picker Stylesheets -->
+    <link href="/css/emoji.css" rel="stylesheet">
+    <!-- End emoji-picker Stylesheets -->
   </head>
   <body class="chat">
 
@@ -18,7 +24,10 @@
 
       <div class="chat__footer">
         <form id="message-form">
-          <input type="text" name="message" placeholder="Message" autofocus autocomplete="off"/>
+          <p class="emoji-picker-container">
+            <input type="text" class="form-control" name="message" placeholder="Message" autofocus autocomplete="off" data-emojiable="true"/>
+          </p>
+          <!-- <input type="text" class="form-control" name="message" placeholder="Message" autofocus autocomplete="off" data-emojiable="true"/> -->
           <button>Send</button>
         </form>
         <button id="send-location">Send location</button>
@@ -56,6 +65,27 @@
     <script src="/js/libs/moment.js"></script>
     <script src="/js/libs/mustache.js"></script>
     <script src="/js/libs/deparam.js"></script>
+    <!-- Begin emoji-picker JavaScript -->
+    <script src="js/libs/emoji/config.js"></script>
+    <script src="js/libs/emoji/util.js"></script>
+    <script src="js/libs/emoji/jquery.emojiarea.js"></script>
+    <script src="js/libs/emoji/emoji-picker.js"></script>
+    <!-- End emoji-picker JavaScript -->
     <script src="/js/chat.js"></script>
+
+    <script>
+      $(function() {
+        // Initializes and creates emoji set from sprite sheet
+        window.emojiPicker = new EmojiPicker({
+          emojiable_selector: '[data-emojiable=true]',
+          assetsPath: 'js/libs/img/',
+          popupButtonClasses: 'fa fa-smile-o'
+        });
+        // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
+        // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
+        // It can be called as many times as necessary; previously converted input fields will not be converted again
+        window.emojiPicker.discover();
+      });
+    </script>
   </body>
 </html>
